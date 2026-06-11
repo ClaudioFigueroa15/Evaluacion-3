@@ -1,0 +1,8 @@
+package evaluacion3.usuario.exception;
+
+public class ReglaNegocioException extends RuntimeException {
+
+    public ReglaNegocioException(String mensaje) {
+        super(mensaje);
+    }
+}
