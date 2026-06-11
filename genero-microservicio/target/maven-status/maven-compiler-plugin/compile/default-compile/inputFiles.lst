@@ -1,0 +1,14 @@
+C:\Users\claud\Downloads\Evaluacion-3\genero-microservicio\src\main\java\evaluacion3\genero\client\PeliculaClient.java
+C:\Users\claud\Downloads\Evaluacion-3\genero-microservicio\src\main\java\evaluacion3\genero\client\PeliculaSimpleDTO.java
+C:\Users\claud\Downloads\Evaluacion-3\genero-microservicio\src\main\java\evaluacion3\genero\config\FeignConfig.java
+C:\Users\claud\Downloads\Evaluacion-3\genero-microservicio\src\main\java\evaluacion3\genero\config\SwaggerConfig.java
+C:\Users\claud\Downloads\Evaluacion-3\genero-microservicio\src\main\java\evaluacion3\genero\controller\GeneroController.java
+C:\Users\claud\Downloads\Evaluacion-3\genero-microservicio\src\main\java\evaluacion3\genero\dto\request\GeneroRequestDTO.java
+C:\Users\claud\Downloads\Evaluacion-3\genero-microservicio\src\main\java\evaluacion3\genero\dto\response\GeneroResponseDTO.java
+C:\Users\claud\Downloads\Evaluacion-3\genero-microservicio\src\main\java\evaluacion3\genero\exception\GlobalExceptionHandler.java
+C:\Users\claud\Downloads\Evaluacion-3\genero-microservicio\src\main\java\evaluacion3\genero\exception\RecursoNoEncontradoException.java
+C:\Users\claud\Downloads\Evaluacion-3\genero-microservicio\src\main\java\evaluacion3\genero\exception\ReglaNegocioException.java
+C:\Users\claud\Downloads\Evaluacion-3\genero-microservicio\src\main\java\evaluacion3\genero\GeneroApplication.java
+C:\Users\claud\Downloads\Evaluacion-3\genero-microservicio\src\main\java\evaluacion3\genero\model\Genero.java
+C:\Users\claud\Downloads\Evaluacion-3\genero-microservicio\src\main\java\evaluacion3\genero\repository\GeneroRepository.java
+C:\Users\claud\Downloads\Evaluacion-3\genero-microservicio\src\main\java\evaluacion3\genero\service\GeneroService.java

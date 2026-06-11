@@ -1,0 +1,14 @@
+evaluacion3\genero\dto\response\GeneroResponseDTO.class
+evaluacion3\genero\config\FeignConfig.class
+evaluacion3\genero\client\PeliculaSimpleDTO.class
+evaluacion3\genero\exception\RecursoNoEncontradoException.class
+evaluacion3\genero\exception\ReglaNegocioException.class
+evaluacion3\genero\service\GeneroService.class
+evaluacion3\genero\config\SwaggerConfig.class
+evaluacion3\genero\dto\request\GeneroRequestDTO.class
+evaluacion3\genero\GeneroApplication.class
+evaluacion3\genero\client\PeliculaClient.class
+evaluacion3\genero\controller\GeneroController.class
+evaluacion3\genero\exception\GlobalExceptionHandler.class
+evaluacion3\genero\repository\GeneroRepository.class
+evaluacion3\genero\model\Genero.class

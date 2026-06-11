@@ -1,0 +1,14 @@
+evaluacion3\valoracion\client\PeliculaClient.class
+evaluacion3\valoracion\dto\request\ValoracionRequestDTO.class
+evaluacion3\valoracion\repository\ValoracionRepository.class
+evaluacion3\valoracion\controller\ValoracionController.class
+evaluacion3\valoracion\dto\response\PeliculaResponseDTO.class
+evaluacion3\valoracion\exception\ReglaNegocioException.class
+evaluacion3\valoracion\dto\response\ValoracionResponseDTO.class
+evaluacion3\valoracion\model\Valoracion.class
+evaluacion3\valoracion\config\SwaggerConfig.class
+evaluacion3\valoracion\exception\GlobalExceptionHandler.class
+evaluacion3\valoracion\ValoracionApplication.class
+evaluacion3\valoracion\exception\RecursoNoEncontradoException.class
+evaluacion3\valoracion\config\FeignConfig.class
+evaluacion3\valoracion\service\ValoracionService.class

@@ -1,0 +1,14 @@
+C:\Users\claud\Downloads\Evaluacion-3\valoracion-microservicio\src\main\java\evaluacion3\valoracion\client\PeliculaClient.java
+C:\Users\claud\Downloads\Evaluacion-3\valoracion-microservicio\src\main\java\evaluacion3\valoracion\config\FeignConfig.java
+C:\Users\claud\Downloads\Evaluacion-3\valoracion-microservicio\src\main\java\evaluacion3\valoracion\config\SwaggerConfig.java
+C:\Users\claud\Downloads\Evaluacion-3\valoracion-microservicio\src\main\java\evaluacion3\valoracion\controller\ValoracionController.java
+C:\Users\claud\Downloads\Evaluacion-3\valoracion-microservicio\src\main\java\evaluacion3\valoracion\dto\request\ValoracionRequestDTO.java
+C:\Users\claud\Downloads\Evaluacion-3\valoracion-microservicio\src\main\java\evaluacion3\valoracion\dto\response\PeliculaResponseDTO.java
+C:\Users\claud\Downloads\Evaluacion-3\valoracion-microservicio\src\main\java\evaluacion3\valoracion\dto\response\ValoracionResponseDTO.java
+C:\Users\claud\Downloads\Evaluacion-3\valoracion-microservicio\src\main\java\evaluacion3\valoracion\exception\GlobalExceptionHandler.java
+C:\Users\claud\Downloads\Evaluacion-3\valoracion-microservicio\src\main\java\evaluacion3\valoracion\exception\RecursoNoEncontradoException.java
+C:\Users\claud\Downloads\Evaluacion-3\valoracion-microservicio\src\main\java\evaluacion3\valoracion\exception\ReglaNegocioException.java
+C:\Users\claud\Downloads\Evaluacion-3\valoracion-microservicio\src\main\java\evaluacion3\valoracion\model\Valoracion.java
+C:\Users\claud\Downloads\Evaluacion-3\valoracion-microservicio\src\main\java\evaluacion3\valoracion\repository\ValoracionRepository.java
+C:\Users\claud\Downloads\Evaluacion-3\valoracion-microservicio\src\main\java\evaluacion3\valoracion\service\ValoracionService.java
+C:\Users\claud\Downloads\Evaluacion-3\valoracion-microservicio\src\main\java\evaluacion3\valoracion\ValoracionApplication.java
