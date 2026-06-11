@@ -60,16 +60,24 @@ public class ValoracionService {
     public ValoracionResponseDTO crearValoracion(ValoracionRequestDTO dto) {
         log.info("Creando valoración para la película id {}", dto.getIdPelicula());
 
-        peliculaClient.obtenerPeliculaPorId(dto.getIdPelicula());
-
         if (dto.getPuntaje() < 1 || dto.getPuntaje() > 10) {
             log.warn("Puntaje inválido {} para la película id {}", dto.getPuntaje(), dto.getIdPelicula());
-            throw new ReglaNegocioException("El puntaje debe estar entre 1 y 10");
+            throw new ReglaNegocioException("El puntaje debe estar entre 1 y 10. Valor proporcionado: " + dto.getPuntaje());
+        }
+
+        try {
+            peliculaClient.obtenerPeliculaPorId(dto.getIdPelicula());
+        } catch (Exception e) {
+            throw new RecursoNoEncontradoException("Película", dto.getIdPelicula());
+        }
+
+        if (dto.getComentario() != null && dto.getComentario().trim().isEmpty()) {
+            dto.setComentario(null);
         }
 
         Valoracion valoracion = new Valoracion();
         valoracion.setPuntaje(dto.getPuntaje());
-        valoracion.setComentario(dto.getComentario());
+        valoracion.setComentario(dto.getComentario() != null ? dto.getComentario().trim() : null);
         valoracion.setIdPelicula(dto.getIdPelicula());
 
         Valoracion guardada = valoracionRepository.save(valoracion);
@@ -81,10 +89,24 @@ public class ValoracionService {
     public ValoracionResponseDTO actualizarValoracion(Long id, ValoracionRequestDTO dto) {
         log.info("Actualizando valoración con id {}", id);
         Valoracion valoracion = buscarValoracionPorId(id);
-        peliculaClient.obtenerPeliculaPorId(dto.getIdPelicula());
+
+        if (dto.getPuntaje() < 1 || dto.getPuntaje() > 10) {
+            log.warn("Puntaje inválido {} para la película id {}", dto.getPuntaje(), dto.getIdPelicula());
+            throw new ReglaNegocioException("El puntaje debe estar entre 1 y 10. Valor proporcionado: " + dto.getPuntaje());
+        }
+
+        try {
+            peliculaClient.obtenerPeliculaPorId(dto.getIdPelicula());
+        } catch (Exception e) {
+            throw new RecursoNoEncontradoException("Película", dto.getIdPelicula());
+        }
+
+        if (dto.getComentario() != null && dto.getComentario().trim().isEmpty()) {
+            dto.setComentario(null);
+        }
 
         valoracion.setPuntaje(dto.getPuntaje());
-        valoracion.setComentario(dto.getComentario());
+        valoracion.setComentario(dto.getComentario() != null ? dto.getComentario().trim() : null);
         valoracion.setIdPelicula(dto.getIdPelicula());
 
         Valoracion actualizada = valoracionRepository.save(valoracion);

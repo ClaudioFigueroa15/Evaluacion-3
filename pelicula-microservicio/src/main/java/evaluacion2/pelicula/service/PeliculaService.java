@@ -53,7 +53,11 @@ public class PeliculaService {
     @Transactional(readOnly = true)
     public List<PeliculaResponseDTO> obtenerPeliculaPorGenero(Long idGenero) {
         log.info("Buscando películas del género con id {}", idGenero);
-        generoClient.obtenerGeneroPorId(idGenero);
+        try {
+            generoClient.obtenerGeneroPorId(idGenero);
+        } catch (Exception e) {
+            throw new RecursoNoEncontradoException("Género", idGenero);
+        }
         List<Pelicula> peliculas = peliculaRepository.findByIdGenero(idGenero);
         log.info("Se encontraron {} películas para el género id {}", peliculas.size(), idGenero);
         return peliculas.stream()
@@ -73,18 +77,28 @@ public class PeliculaService {
 
     @Transactional
     public PeliculaResponseDTO crearPelicula(PeliculaRequestDTO dto) {
-        log.info("Intentando crear película '{}'", dto.getTitulo());
+        String tituloNormalizado = dto.getTitulo().trim();
+        log.info("Intentando crear película '{}'", tituloNormalizado);
 
-        generoClient.obtenerGeneroPorId(dto.getIdGenero());
+        try {
+            generoClient.obtenerGeneroPorId(dto.getIdGenero());
+        } catch (Exception e) {
+            throw new RecursoNoEncontradoException("Género", dto.getIdGenero());
+        }
+
+        if (peliculaRepository.findByTituloAndAnioEstreno(tituloNormalizado, dto.getAnioEstreno()).isPresent()) {
+            log.warn("Ya existe una película con título '{}' y año {}", tituloNormalizado, dto.getAnioEstreno());
+            throw new ReglaNegocioException("Ya existe una película con el título '" + tituloNormalizado + "' del año " + dto.getAnioEstreno());
+        }
 
         int anioActual = java.time.Year.now().getValue();
         if (dto.getAnioEstreno() > anioActual + 5) {
-            log.warn("Año de estreno {} inválido para la película '{}'", dto.getAnioEstreno(), dto.getTitulo());
+            log.warn("Año de estreno {} inválido para la película '{}'", dto.getAnioEstreno(), tituloNormalizado);
             throw new ReglaNegocioException("El año de estreno no puede ser superior a " + (anioActual + 5));
         }
 
         Pelicula pelicula = new Pelicula();
-        pelicula.setTitulo(dto.getTitulo());
+        pelicula.setTitulo(tituloNormalizado);
         pelicula.setAnioEstreno(dto.getAnioEstreno());
         pelicula.setDuracion(dto.getDuracion());
         pelicula.setIdGenero(dto.getIdGenero());
@@ -96,11 +110,24 @@ public class PeliculaService {
 
     @Transactional
     public PeliculaResponseDTO actualizarPelicula(Long id, PeliculaRequestDTO dto) {
+        String tituloNormalizado = dto.getTitulo().trim();
         log.info("Actualizando película con id {}", id);
         Pelicula pelicula = buscarPeliculaPorId(id);
-        generoClient.obtenerGeneroPorId(dto.getIdGenero());
 
-        pelicula.setTitulo(dto.getTitulo());
+        try {
+            generoClient.obtenerGeneroPorId(dto.getIdGenero());
+        } catch (Exception e) {
+            throw new RecursoNoEncontradoException("Género", dto.getIdGenero());
+        }
+
+        if (!pelicula.getTitulo().equalsIgnoreCase(tituloNormalizado) || !pelicula.getAnioEstreno().equals(dto.getAnioEstreno())) {
+            if (peliculaRepository.findByTituloAndAnioEstreno(tituloNormalizado, dto.getAnioEstreno()).isPresent()) {
+                log.warn("Ya existe otra película con título '{}' y año {}", tituloNormalizado, dto.getAnioEstreno());
+                throw new ReglaNegocioException("Ya existe otra película con el título '" + tituloNormalizado + "' del año " + dto.getAnioEstreno());
+            }
+        }
+
+        pelicula.setTitulo(tituloNormalizado);
         pelicula.setAnioEstreno(dto.getAnioEstreno());
         pelicula.setDuracion(dto.getDuracion());
         pelicula.setIdGenero(dto.getIdGenero());

@@ -1,5 +1,6 @@
 package evaluacion2.genero.service;
 
+import evaluacion2.genero.client.PeliculaClient;
 import evaluacion2.genero.dto.request.GeneroRequestDTO;
 import evaluacion2.genero.dto.response.GeneroResponseDTO;
 import evaluacion2.genero.exception.RecursoNoEncontradoException;
@@ -20,9 +21,11 @@ public class GeneroService {
     private static final Logger log = LoggerFactory.getLogger(GeneroService.class);
 
     private final GeneroRepository generoRepository;
+    private final PeliculaClient peliculaClient;
 
-    public GeneroService(GeneroRepository generoRepository) {
+    public GeneroService(GeneroRepository generoRepository, PeliculaClient peliculaClient) {
         this.generoRepository = generoRepository;
+        this.peliculaClient = peliculaClient;
     }
 
     @Transactional(readOnly = true)
@@ -45,16 +48,22 @@ public class GeneroService {
 
     @Transactional
     public GeneroResponseDTO crearGenero(GeneroRequestDTO dto) {
-        log.info("Intentando crear género con nombre '{}'", dto.getNombre());
+        String nombreNormalizado = dto.getNombre().trim();
+        log.info("Intentando crear género con nombre '{}'", nombreNormalizado);
 
-        if (generoRepository.existsByNombre(dto.getNombre())) {
-            log.warn("Creación fallida: ya existe un género con el nombre '{}'", dto.getNombre());
-            throw new ReglaNegocioException("Ya existe un género con el nombre: " + dto.getNombre());
+        if (!nombreNormalizado.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$")) {
+            log.warn("El nombre '{}' contiene caracteres no permitidos", nombreNormalizado);
+            throw new ReglaNegocioException("El nombre del género solo puede contener letras y espacios");
+        }
+
+        if (generoRepository.existsByNombre(nombreNormalizado)) {
+            log.warn("Creación fallida: ya existe un género con el nombre '{}'", nombreNormalizado);
+            throw new ReglaNegocioException("Ya existe un género con el nombre: " + nombreNormalizado);
         }
 
         Genero genero = new Genero();
-        genero.setNombre(dto.getNombre());
-        genero.setDescripcion(dto.getDescripcion());
+        genero.setNombre(nombreNormalizado);
+        genero.setDescripcion(dto.getDescripcion() != null ? dto.getDescripcion().trim() : null);
 
         Genero guardado = generoRepository.save(genero);
         log.info("Género creado exitosamente con id {}", guardado.getId());
@@ -63,16 +72,22 @@ public class GeneroService {
 
     @Transactional
     public GeneroResponseDTO actualizarGenero(Long id, GeneroRequestDTO dto) {
+        String nombreNormalizado = dto.getNombre().trim();
         log.info("Actualizando género con id {}", id);
         Genero genero = buscarGeneroPorId(id);
 
-        if (!genero.getNombre().equals(dto.getNombre()) && generoRepository.existsByNombre(dto.getNombre())) {
-            log.warn("Actualización fallida: el nombre '{}' ya está en uso", dto.getNombre());
-            throw new ReglaNegocioException("Ya existe un género con el nombre: " + dto.getNombre());
+        if (!nombreNormalizado.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$")) {
+            log.warn("El nombre '{}' contiene caracteres no permitidos", nombreNormalizado);
+            throw new ReglaNegocioException("El nombre del género solo puede contener letras y espacios");
         }
 
-        genero.setNombre(dto.getNombre());
-        genero.setDescripcion(dto.getDescripcion());
+        if (!genero.getNombre().equals(nombreNormalizado) && generoRepository.existsByNombre(nombreNormalizado)) {
+            log.warn("Actualización fallida: el nombre '{}' ya está en uso", nombreNormalizado);
+            throw new ReglaNegocioException("Ya existe un género con el nombre: " + nombreNormalizado);
+        }
+
+        genero.setNombre(nombreNormalizado);
+        genero.setDescripcion(dto.getDescripcion() != null ? dto.getDescripcion().trim() : null);
 
         Genero actualizado = generoRepository.save(genero);
         log.info("Género con id {} actualizado correctamente", id);
@@ -84,8 +99,17 @@ public class GeneroService {
         log.info("Eliminando género con id {}", id);
         Genero genero = buscarGeneroPorId(id);
 
-        if (genero.getDescripcion() != null && !genero.getDescripcion().isEmpty()) {
-            log.warn("No se puede eliminar el género '{}' porque tiene restricciones asociadas", genero.getNombre());
+        try {
+            List<?> peliculas = peliculaClient.obtenerPeliculasPorGenero(id);
+            if (peliculas != null && !peliculas.isEmpty()) {
+                log.warn("No se puede eliminar el género '{}' porque tiene {} películas asociadas", genero.getNombre(), peliculas.size());
+                throw new ReglaNegocioException(
+                        "No se puede eliminar el género '" + genero.getNombre() + "' porque tiene " + peliculas.size() + " película(s) asociada(s)");
+            }
+        } catch (ReglaNegocioException e) {
+            throw e;
+        } catch (Exception e) {
+            log.warn("No se pudo verificar si el género {} tiene películas asociadas. Se permite la eliminación.", id);
         }
 
         generoRepository.delete(genero);

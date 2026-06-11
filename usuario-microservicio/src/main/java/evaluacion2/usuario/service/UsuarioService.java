@@ -54,16 +54,25 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioResponseDTO crearUsuario(UsuarioRequestDTO dto) {
-        log.info("Intentando crear usuario con email '{}'", dto.getEmail());
+        String nombreNormalizado = dto.getNombre().trim();
+        String emailNormalizado = dto.getEmail().trim().toLowerCase();
+        log.info("Intentando crear usuario con email '{}'", emailNormalizado);
 
-        if (usuarioRepository.existsByEmail(dto.getEmail())) {
-            log.warn("Creación fallida: ya existe un usuario con el email '{}'", dto.getEmail());
-            throw new ReglaNegocioException("Ya existe un usuario con el email: " + dto.getEmail());
+        if (!emailNormalizado.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")) {
+            log.warn("Formato de email inválido: '{}'", emailNormalizado);
+            throw new ReglaNegocioException("El formato del email no es válido");
         }
 
+        if (usuarioRepository.existsByEmail(emailNormalizado)) {
+            log.warn("Creación fallida: ya existe un usuario con el email '{}'", emailNormalizado);
+            throw new ReglaNegocioException("Ya existe un usuario con el email: " + emailNormalizado);
+        }
+
+        validarPassword(dto.getPassword());
+
         Usuario usuario = new Usuario();
-        usuario.setNombre(dto.getNombre());
-        usuario.setEmail(dto.getEmail());
+        usuario.setNombre(nombreNormalizado);
+        usuario.setEmail(emailNormalizado);
         usuario.setPassword(dto.getPassword());
 
         Usuario guardado = usuarioRepository.save(usuario);
@@ -73,16 +82,25 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioResponseDTO actualizarUsuario(Long id, UsuarioRequestDTO dto) {
+        String nombreNormalizado = dto.getNombre().trim();
+        String emailNormalizado = dto.getEmail().trim().toLowerCase();
         log.info("Actualizando usuario con id {}", id);
         Usuario usuario = buscarUsuarioPorId(id);
 
-        if (!usuario.getEmail().equals(dto.getEmail()) && usuarioRepository.existsByEmail(dto.getEmail())) {
-            log.warn("Actualización fallida: el email '{}' ya está en uso", dto.getEmail());
-            throw new ReglaNegocioException("Ya existe un usuario con el email: " + dto.getEmail());
+        if (!emailNormalizado.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")) {
+            log.warn("Formato de email inválido: '{}'", emailNormalizado);
+            throw new ReglaNegocioException("El formato del email no es válido");
         }
 
-        usuario.setNombre(dto.getNombre());
-        usuario.setEmail(dto.getEmail());
+        if (!usuario.getEmail().equals(emailNormalizado) && usuarioRepository.existsByEmail(emailNormalizado)) {
+            log.warn("Actualización fallida: el email '{}' ya está en uso", emailNormalizado);
+            throw new ReglaNegocioException("Ya existe un usuario con el email: " + emailNormalizado);
+        }
+
+        validarPassword(dto.getPassword());
+
+        usuario.setNombre(nombreNormalizado);
+        usuario.setEmail(emailNormalizado);
         usuario.setPassword(dto.getPassword());
 
         Usuario actualizado = usuarioRepository.save(usuario);
@@ -101,6 +119,24 @@ public class UsuarioService {
     private Usuario buscarUsuarioPorId(Long id) {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Usuario", id));
+    }
+
+    private void validarPassword(String password) {
+        if (password == null || password.length() < 8) {
+            throw new ReglaNegocioException("La contraseña debe tener al menos 8 caracteres");
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            throw new ReglaNegocioException("La contraseña debe contener al menos una letra mayúscula");
+        }
+        if (!password.matches(".*[a-z].*")) {
+            throw new ReglaNegocioException("La contraseña debe contener al menos una letra minúscula");
+        }
+        if (!password.matches(".*\\d.*")) {
+            throw new ReglaNegocioException("La contraseña debe contener al menos un dígito");
+        }
+        if (!password.matches(".*[!@#$%^&+=].*")) {
+            throw new ReglaNegocioException("La contraseña debe contener al menos un carácter especial (!@#$%^&+=)");
+        }
     }
 
     private UsuarioResponseDTO mapearAResponse(Usuario usuario) {
