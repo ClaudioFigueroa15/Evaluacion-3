@@ -7,6 +7,7 @@ import evaluacion2.valoracion.exception.RecursoNoEncontradoException;
 import evaluacion2.valoracion.exception.ReglaNegocioException;
 import evaluacion2.valoracion.model.Valoracion;
 import evaluacion2.valoracion.repository.ValoracionRepository;
+import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -65,11 +66,7 @@ public class ValoracionService {
             throw new ReglaNegocioException("El puntaje debe estar entre 1 y 10. Valor proporcionado: " + dto.getPuntaje());
         }
 
-        try {
-            peliculaClient.obtenerPeliculaPorId(dto.getIdPelicula());
-        } catch (Exception e) {
-            throw new RecursoNoEncontradoException("Película", dto.getIdPelicula());
-        }
+        validarExistenciaPelicula(dto.getIdPelicula());
 
         if (dto.getComentario() != null && dto.getComentario().trim().isEmpty()) {
             dto.setComentario(null);
@@ -95,11 +92,7 @@ public class ValoracionService {
             throw new ReglaNegocioException("El puntaje debe estar entre 1 y 10. Valor proporcionado: " + dto.getPuntaje());
         }
 
-        try {
-            peliculaClient.obtenerPeliculaPorId(dto.getIdPelicula());
-        } catch (Exception e) {
-            throw new RecursoNoEncontradoException("Película", dto.getIdPelicula());
-        }
+        validarExistenciaPelicula(dto.getIdPelicula());
 
         if (dto.getComentario() != null && dto.getComentario().trim().isEmpty()) {
             dto.setComentario(null);
@@ -122,6 +115,18 @@ public class ValoracionService {
         log.info("Valoración con id {} eliminada exitosamente", id);
     }
 
+    private void validarExistenciaPelicula(Long idPelicula) {
+        try {
+            peliculaClient.obtenerPeliculaPorId(idPelicula);
+        } catch (RecursoNoEncontradoException e) {
+            log.warn("La película con id {} no existe en pelicula-microservicio", idPelicula);
+            throw new RecursoNoEncontradoException("Película", idPelicula);
+        } catch (FeignException e) {
+            log.error("Error de comunicación con pelicula-microservicio al validar película {}: {}", idPelicula, e.getMessage());
+            throw new RuntimeException("No se pudo validar la existencia de la película. Intente nuevamente.");
+        }
+    }
+
     private Valoracion buscarValoracionPorId(Long id) {
         return valoracionRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Valoración", id));
@@ -137,7 +142,7 @@ public class ValoracionService {
             var pelicula = peliculaClient.obtenerPeliculaPorId(valoracion.getIdPelicula());
             dto.setTituloPelicula(pelicula.getTitulo());
         } catch (Exception e) {
-            log.warn("No se pudo obtener el título de la película para valoración {}", valoracion.getId());
+            log.warn("No se pudo obtener el título para la película {}: {}", valoracion.getIdPelicula(), e.getMessage());
         }
         return dto;
     }

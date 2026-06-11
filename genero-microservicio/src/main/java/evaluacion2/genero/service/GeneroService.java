@@ -7,6 +7,7 @@ import evaluacion2.genero.exception.RecursoNoEncontradoException;
 import evaluacion2.genero.exception.ReglaNegocioException;
 import evaluacion2.genero.model.Genero;
 import evaluacion2.genero.repository.GeneroRepository;
+import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -100,16 +101,18 @@ public class GeneroService {
         Genero genero = buscarGeneroPorId(id);
 
         try {
-            List<?> peliculas = peliculaClient.obtenerPeliculasPorGenero(id);
-            if (peliculas != null && !peliculas.isEmpty()) {
+            var peliculas = peliculaClient.obtenerPeliculasPorGenero(id);
+            if (!peliculas.isEmpty()) {
                 log.warn("No se puede eliminar el género '{}' porque tiene {} películas asociadas", genero.getNombre(), peliculas.size());
                 throw new ReglaNegocioException(
                         "No se puede eliminar el género '" + genero.getNombre() + "' porque tiene " + peliculas.size() + " película(s) asociada(s)");
             }
+        } catch (RecursoNoEncontradoException e) {
+            log.info("El género {} no tiene películas asociadas (el recurso no existe en pelicula-microservicio). Se permite la eliminación.", id);
         } catch (ReglaNegocioException e) {
             throw e;
-        } catch (Exception e) {
-            log.warn("No se pudo verificar si el género {} tiene películas asociadas. Se permite la eliminación.", id);
+        } catch (FeignException e) {
+            log.warn("Error de comunicación con pelicula-microservicio al verificar películas del género {}: {}. Se permite la eliminación.", id, e.getMessage());
         }
 
         generoRepository.delete(genero);

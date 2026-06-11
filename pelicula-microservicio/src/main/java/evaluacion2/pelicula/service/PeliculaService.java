@@ -9,6 +9,7 @@ import evaluacion2.pelicula.exception.RecursoNoEncontradoException;
 import evaluacion2.pelicula.exception.ReglaNegocioException;
 import evaluacion2.pelicula.model.Pelicula;
 import evaluacion2.pelicula.repository.PeliculaRepository;
+import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -55,8 +56,11 @@ public class PeliculaService {
         log.info("Buscando películas del género con id {}", idGenero);
         try {
             generoClient.obtenerGeneroPorId(idGenero);
-        } catch (Exception e) {
+        } catch (RecursoNoEncontradoException e) {
             throw new RecursoNoEncontradoException("Género", idGenero);
+        } catch (FeignException e) {
+            log.error("Error de comunicación con genero-microservicio: {}", e.getMessage());
+            throw new RuntimeException("No se pudo validar el género. Intente nuevamente.");
         }
         List<Pelicula> peliculas = peliculaRepository.findByIdGenero(idGenero);
         log.info("Se encontraron {} películas para el género id {}", peliculas.size(), idGenero);
@@ -82,8 +86,11 @@ public class PeliculaService {
 
         try {
             generoClient.obtenerGeneroPorId(dto.getIdGenero());
-        } catch (Exception e) {
+        } catch (RecursoNoEncontradoException e) {
             throw new RecursoNoEncontradoException("Género", dto.getIdGenero());
+        } catch (FeignException e) {
+            log.error("Error de comunicación con genero-microservicio: {}", e.getMessage());
+            throw new RuntimeException("No se pudo validar el género. Intente nuevamente.");
         }
 
         if (peliculaRepository.findByTituloAndAnioEstreno(tituloNormalizado, dto.getAnioEstreno()).isPresent()) {
@@ -116,8 +123,11 @@ public class PeliculaService {
 
         try {
             generoClient.obtenerGeneroPorId(dto.getIdGenero());
-        } catch (Exception e) {
+        } catch (RecursoNoEncontradoException e) {
             throw new RecursoNoEncontradoException("Género", dto.getIdGenero());
+        } catch (FeignException e) {
+            log.error("Error de comunicación con genero-microservicio: {}", e.getMessage());
+            throw new RuntimeException("No se pudo validar el género. Intente nuevamente.");
         }
 
         if (!pelicula.getTitulo().equalsIgnoreCase(tituloNormalizado) || !pelicula.getAnioEstreno().equals(dto.getAnioEstreno())) {
@@ -170,13 +180,13 @@ public class PeliculaService {
             var genero = generoClient.obtenerGeneroPorId(pelicula.getIdGenero());
             dto.setNombreGenero(genero.getNombre());
         } catch (Exception e) {
-            log.warn("No se pudo obtener el género para la película {}", pelicula.getId());
+            log.warn("No se pudo obtener el género para la película {}: {}", pelicula.getId(), e.getMessage());
         }
         try {
             List<ValoracionResponseDTO> valoraciones = valoracionClient.obtenerPorPelicula(pelicula.getId());
             dto.setValoracion(calcularPromedio(valoraciones));
         } catch (Exception e) {
-            log.warn("No se pudieron obtener las valoraciones para la película {}", pelicula.getId());
+            log.warn("No se pudieron obtener las valoraciones para la película {}: {}", pelicula.getId(), e.getMessage());
         }
         return dto;
     }
