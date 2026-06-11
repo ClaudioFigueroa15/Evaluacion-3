@@ -1,0 +1,27 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: pelicula-microservicio
+          uri: http://${PELICULA_HOST:pelicula-microservicio}:${PELICULA_PORT:8081}
+          predicates:
+            - Path=/api/v1/peliculas/**
+        - id: genero-microservicio
+          uri: http://${GENERO_HOST:genero-microservicio}:${GENERO_PORT:8082}
+          predicates:
+            - Path=/api/v1/generos/**
+        - id: valoracion-microservicio
+          uri: http://${VALORACION_HOST:valoracion-microservicio}:${VALORACION_PORT:8083}
+          predicates:
+            - Path=/api/v1/valoraciones/**
+        - id: usuario-microservicio
+          uri: http://${USUARIO_HOST:usuario-microservicio}:${USUARIO_PORT:8084}
+          predicates:
+            - Path=/api/v1/usuarios/**
+
+logging:
+  level:
+    org.springframework.cloud.gateway: WARN
+
+server:
+  port: 8080
