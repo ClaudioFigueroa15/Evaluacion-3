@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "pelicula-microservicio", url = "http://localhost:8081/api/v1/peliculas", configuration = FeignConfig.class)
+@FeignClient(name = "pelicula-microservicio", url = "${pelicula.service.url}", configuration = FeignConfig.class)
 public interface PeliculaClient {
 
     @GetMapping("/genero/{idGenero}")

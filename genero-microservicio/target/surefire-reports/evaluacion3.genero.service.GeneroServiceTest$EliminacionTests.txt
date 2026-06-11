@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: evaluacion3.genero.service.GeneroServiceTest$EliminacionTests
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.841 s -- in evaluacion3.genero.service.GeneroServiceTest$EliminacionTests

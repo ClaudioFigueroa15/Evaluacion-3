@@ -1,0 +1,70 @@
+services:
+  - type: web
+    name: pelicula-microservicio
+    env: docker
+    rootDir: pelicula-microservicio
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+      - key: GENERO_SERVICE_URL
+        value: http://genero-microservicio:8080/api/v1/generos
+      - key: VALORACION_SERVICE_URL
+        value: http://valoracion-microservicio:8080/api/v1/valoraciones
+
+  - type: web
+    name: genero-microservicio
+    env: docker
+    rootDir: genero-microservicio
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+      - key: PELICULA_SERVICE_URL
+        value: http://pelicula-microservicio:8080/api/v1/peliculas
+
+  - type: web
+    name: valoracion-microservicio
+    env: docker
+    rootDir: valoracion-microservicio
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+      - key: PELICULA_SERVICE_URL
+        value: http://pelicula-microservicio:8080/api/v1/peliculas
+
+  - type: web
+    name: usuario-microservicio
+    env: docker
+    rootDir: usuario-microservicio
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+
+  - type: web
+    name: api-gateway
+    env: docker
+    rootDir: api-gateway
+    envVars:
+      - key: PELICULA_SERVICE_URL
+        value: http://pelicula-microservicio:8080
+      - key: GENERO_SERVICE_URL
+        value: http://genero-microservicio:8080
+      - key: VALORACION_SERVICE_URL
+        value: http://valoracion-microservicio:8080
+      - key: USUARIO_SERVICE_URL
+        value: http://usuario-microservicio:8080

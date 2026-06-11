@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: evaluacion3.usuario.service.UsuarioServiceTest$ConsultaTests
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.070 s -- in evaluacion3.usuario.service.UsuarioServiceTest$ConsultaTests

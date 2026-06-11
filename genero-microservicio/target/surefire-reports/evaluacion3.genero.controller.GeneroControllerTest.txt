@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: evaluacion3.genero.controller.GeneroControllerTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.423 s -- in evaluacion3.genero.controller.GeneroControllerTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.146 s -- in evaluacion3.genero.controller.GeneroControllerTest

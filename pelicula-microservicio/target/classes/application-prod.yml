@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/pelicula_prod
-    username: ${DB_USER:root}
-    password: ${DB_PASSWORD:}
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -12,9 +12,17 @@ spring:
     init:
       mode: never
 
+genero:
+  service:
+    url: ${GENERO_SERVICE_URL:http://localhost:8082/api/v1/generos}
+
+valoracion:
+  service:
+    url: ${VALORACION_SERVICE_URL:http://localhost:8083/api/v1/valoraciones}
+
 server:
-  port: 8081
+  port: ${PORT:8080}
 
 logging:
   level:
-    evaluacion2.pelicula: WARN
+    evaluacion3.pelicula: WARN

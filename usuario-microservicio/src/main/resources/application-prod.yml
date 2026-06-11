@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/usuario_prod
-    username: ${DB_USER:root}
-    password: ${DB_PASSWORD:}
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -13,8 +13,8 @@ spring:
       mode: never
 
 server:
-  port: 8084
+  port: ${PORT:8080}
 
 logging:
   level:
-    evaluacion2.usuario: WARN
+    evaluacion3.usuario: WARN
