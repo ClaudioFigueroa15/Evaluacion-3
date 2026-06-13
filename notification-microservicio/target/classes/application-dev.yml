@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/notification_dev
+    username: postgres
+    password: postgres
+
+server:
+  port: 8089
+
+logging:
+  level:
+    evaluacion3.notification: DEBUG

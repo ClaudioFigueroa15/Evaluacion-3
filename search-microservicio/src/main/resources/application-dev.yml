@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/search_dev
+    username: postgres
+    password: postgres
+  jpa:
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+
+services:
+  pelicula:
+    url: http://localhost:8081
+
+server:
+  port: 8088
+
+logging:
+  level:
+    evaluacion3.search: DEBUG

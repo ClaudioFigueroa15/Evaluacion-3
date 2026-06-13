@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/favorites_dev
+    username: postgres
+    password: postgres
+
+server:
+  port: 8087
+
+logging:
+  level:
+    evaluacion3.favorites: DEBUG

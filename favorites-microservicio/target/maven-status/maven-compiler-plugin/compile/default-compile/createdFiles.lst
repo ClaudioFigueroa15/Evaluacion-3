@@ -1,0 +1,11 @@
+evaluacion3\favorites\exception\GlobalExceptionHandler.class
+evaluacion3\favorites\model\Favorite.class
+evaluacion3\favorites\exception\RecursoNoEncontradoException.class
+evaluacion3\favorites\repository\FavoriteRepository.class
+evaluacion3\favorites\service\FavoriteService.class
+evaluacion3\favorites\controller\FavoriteController.class
+evaluacion3\favorites\dto\request\FavoriteRequestDTO.class
+evaluacion3\favorites\dto\response\FavoriteResponseDTO.class
+evaluacion3\favorites\exception\ReglaNegocioException.class
+evaluacion3\favorites\FavoriteApplication.class
+evaluacion3\favorites\config\SwaggerConfig.class

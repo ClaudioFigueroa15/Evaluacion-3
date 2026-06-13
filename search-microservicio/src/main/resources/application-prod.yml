@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  sql:
+    init:
+      mode: never
+
+services:
+  pelicula:
+    url: ${PELICULA_SERVICE_URL}
+
+server:
+  port: ${PORT:8088}
+
+logging:
+  level:
+    evaluacion3.search: WARN

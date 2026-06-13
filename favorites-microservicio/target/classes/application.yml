@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: favorites-microservicio
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8087
+
+logging:
+  level:
+    evaluacion3:
+      favorites: INFO

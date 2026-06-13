@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: watch-history-microservicio
+server:
+  port: 8086
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+logging:
+  level:
+    evaluacion3:
+      watchhistory: INFO

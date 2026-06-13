@@ -1,0 +1,11 @@
+evaluacion3\watchhistory\service\WatchHistoryService.class
+evaluacion3\watchhistory\dto\response\WatchHistoryResponseDTO.class
+evaluacion3\watchhistory\repository\WatchHistoryRepository.class
+evaluacion3\watchhistory\dto\request\WatchHistoryRequestDTO.class
+evaluacion3\watchhistory\WatchHistoryApplication.class
+evaluacion3\watchhistory\exception\RecursoNoEncontradoException.class
+evaluacion3\watchhistory\config\SwaggerConfig.class
+evaluacion3\watchhistory\controller\WatchHistoryController.class
+evaluacion3\watchhistory\exception\ReglaNegocioException.class
+evaluacion3\watchhistory\exception\GlobalExceptionHandler.class
+evaluacion3\watchhistory\model\WatchHistory.class

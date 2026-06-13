@@ -18,6 +18,26 @@ spring:
           uri: ${USUARIO_SERVICE_URL:http://localhost:8084}
           predicates:
             - Path=/api/v1/usuarios/**
+        - id: subscription-microservicio
+          uri: ${SUBSCRIPTION_SERVICE_URL:http://localhost:8085}
+          predicates:
+            - Path=/api/v1/subscriptions/**
+        - id: watch-history-microservicio
+          uri: ${WATCH_HISTORY_SERVICE_URL:http://localhost:8086}
+          predicates:
+            - Path=/api/v1/watch-history/**
+        - id: favorites-microservicio
+          uri: ${FAVORITES_SERVICE_URL:http://localhost:8087}
+          predicates:
+            - Path=/api/v1/favorites/**
+        - id: search-microservicio
+          uri: ${SEARCH_SERVICE_URL:http://localhost:8088}
+          predicates:
+            - Path=/api/v1/search/**
+        - id: notification-microservicio
+          uri: ${NOTIFICATION_SERVICE_URL:http://localhost:8089}
+          predicates:
+            - Path=/api/v1/notifications/**
 
 logging:
   level:
