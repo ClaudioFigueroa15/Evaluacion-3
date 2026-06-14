@@ -1,16 +1,20 @@
 spring:
   datasource:
     url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    username: ${DB_USER}
+    password: ${DB_PASS}
     driver-class-name: org.postgresql.Driver
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     show-sql: false
+  sql:
+    init:
+      mode: never
 
 server:
-  port: ${PORT:8085}
+  port: ${PORT:8080}
 
 logging:
   level:

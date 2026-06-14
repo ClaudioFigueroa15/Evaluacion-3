@@ -56,6 +56,68 @@ services:
         sync: false
 
   - type: web
+    name: favorites-microservicio
+    env: docker
+    rootDir: favorites-microservicio
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+
+  - type: web
+    name: notification-microservicio
+    env: docker
+    rootDir: notification-microservicio
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+
+  - type: web
+    name: search-microservicio
+    env: docker
+    rootDir: search-microservicio
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+
+  - type: web
+    name: subscription-microservicio
+    env: docker
+    rootDir: subscription-microservicio
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+      - key: PELICULA_SERVICE_URL
+        value: http://pelicula-microservicio:8080/api/v1/peliculas
+
+  - type: web
+    name: watch-history-microservicio
+    env: docker
+    rootDir: watch-history-microservicio
+    envVars:
+      - key: DB_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+
+  - type: web
     name: api-gateway
     env: docker
     rootDir: api-gateway

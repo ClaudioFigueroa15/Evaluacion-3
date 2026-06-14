@@ -10,6 +10,11 @@
         <option value="$PROJECT_DIR$/usuario-microservicio/pom.xml" />
         <option value="$PROJECT_DIR$/valoracion-microservicio/pom.xml" />
         <option value="$PROJECT_DIR$/api-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/favorites-microservicio/pom.xml" />
+        <option value="$PROJECT_DIR$/notification-microservicio/pom.xml" />
+        <option value="$PROJECT_DIR$/search-microservicio/pom.xml" />
+        <option value="$PROJECT_DIR$/subscription-microservicio/pom.xml" />
+        <option value="$PROJECT_DIR$/watch-history-microservicio/pom.xml" />
       </list>
     </option>
   </component>

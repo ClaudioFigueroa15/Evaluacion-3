@@ -18,16 +18,21 @@
         </processorPath>
         <module name="streamflow" />
       </profile>
-      <profile name="Annotation profile for valoracion-microservicio" enabled="true">
+      <profile name="Annotation profile for watch-history-microservicio" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
-        <module name="valoracion-microservicio" />
         <module name="pelicula-microservicio" />
+        <module name="subscription-microservicio" />
+        <module name="watch-history-microservicio" />
+        <module name="favorites-microservicio" />
         <module name="genero-microservicio" />
+        <module name="search-microservicio" />
+        <module name="notification-microservicio" />
+        <module name="valoracion-microservicio" />
         <module name="usuario-microservicio" />
       </profile>
     </annotationProcessing>
@@ -35,11 +40,16 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-gateway" options="-parameters" />
+      <module name="favorites-microservicio" options="-parameters" />
       <module name="genero-microservicio" options="-parameters" />
+      <module name="notification-microservicio" options="-parameters" />
       <module name="pelicula-microservicio" options="-parameters" />
+      <module name="search-microservicio" options="-parameters" />
       <module name="streamflow" options="-parameters" />
+      <module name="subscription-microservicio" options="-parameters" />
       <module name="usuario-microservicio" options="-parameters" />
       <module name="valoracion-microservicio" options="-parameters" />
+      <module name="watch-history-microservicio" options="-parameters" />
     </option>
   </component>
 </project>
