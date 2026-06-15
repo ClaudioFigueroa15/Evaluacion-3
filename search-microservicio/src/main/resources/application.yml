@@ -4,8 +4,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
     properties:
       hibernate:
+        format-sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
@@ -13,4 +15,5 @@ server:
 
 logging:
   level:
-    evaluacion3.search: INFO
+    evaluacion3:
+      search: INFO
